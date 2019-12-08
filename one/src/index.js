@@ -42,15 +42,19 @@ import { Provider } from 'react-redux';
 //   document.getElementById('root')
 // );
 
-import FourRedux from './reduxFloder/FourRedux';
-import { createStore, applyMiddleware } from 'redux';
-import logger from 'redux-logger';
-import thunk from 'redux-thunk';
-import { firstReducer } from './reduxFloder/count.redux';
-const store1 = createStore(firstReducer, applyMiddleware(thunk, logger));
-ReactDom.render(
-  <Provider store={store1}>
-    <FourRedux />
-  </Provider>,
-  document.getElementById('root')
-);
+// import FourRedux from './reduxFloder/FourRedux';
+// import { createStore, applyMiddleware } from 'redux';
+// import logger from 'redux-logger';
+// import thunk from 'redux-thunk';
+// import { firstReducer } from './reduxFloder/count.redux';
+// const store1 = createStore(firstReducer, applyMiddleware(thunk, logger));
+// ReactDom.render(
+//   <Provider store={store1}>
+//     <FourRedux />
+//   </Provider>,
+//   document.getElementById('root')
+// );
+
+// 路由
+import RouterSample from './reactrouter/RouterSample';
+ReactDom.render(<RouterSample />, document.getElementById('root'));
