@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
-
+import { connect, Provider } from 'react-redux';
+import store from '../reduxFloder';
+import { login } from '../reduxFloder/user.redux';
 function Home({ location }) {
   return (
     <div>
@@ -102,6 +104,9 @@ function App() {
 }
 
 // 路由守卫
+@connect(state => ({
+  isLogin: state.user.isLogin
+}))
 class RouteGuard extends Component {
   render() {
     const { component: Component, ...others } = this.props;
@@ -109,7 +114,7 @@ class RouteGuard extends Component {
       <Route
         {...others}
         render={props =>
-          auth.isLogin ? (
+          this.props.isLogin ? (
             <Component {...props}></Component>
           ) : (
             <Redirect
@@ -125,7 +130,7 @@ class RouteGuard extends Component {
   }
 }
 // 模拟接口
-const auth = {
+/* const auth = {
   isLogin: false,
   login(callback) {
     this.isLogin = true;
@@ -133,32 +138,32 @@ const auth = {
       callback();
     }, 1000);
   }
-};
-
+}; */
+@connect(state => ({ isLogin: state.user.isLogin }), { login })
 class Login extends Component {
-  state = {
-    isLogin: false
-  };
-  login() {
-    auth.login(() => {
-      this.setState({
-        isLogin: true
-      });
-    });
-  }
+  // state = {
+  //   isLogin: false
+  // };
+  // login() {
+  //   auth.login(() => {
+  //     this.setState({
+  //       isLogin: true
+  //     });
+  //   });
+  // }
   render() {
     const path =
       this.props.location.state && this.props.location.state.from
         ? this.props.location.state.from
         : '/';
-    if (this.state.isLogin) {
+    if (this.props.isLogin) {
       return <Redirect to={path}></Redirect>;
     }
     return (
       <div>
         <button
           onClick={() => {
-            this.login();
+            this.props.login();
           }}
         >
           登录
@@ -173,7 +178,9 @@ export default function RouterSample() {
     <div>
       <h1>演示路由4.x</h1>
       <BrowserRouter>
-        <App></App>
+        <Provider store={store}>
+          <App></App>
+        </Provider>
       </BrowserRouter>
     </div>
   );
