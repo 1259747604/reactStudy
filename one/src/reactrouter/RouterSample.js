@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
 
 function Home({ location }) {
@@ -88,8 +88,10 @@ function App() {
       <Switch>
         {/* 确切匹配 */}
         <Route exact path="/" component={Home}></Route>
+        <Route exact path="/login" component={Login}></Route>
         <Route path="/class" component={Class}></Route>
-        <Route path="/my" component={My}></Route>
+        {/* <Route path="/my" component={My}></Route> */}
+        <RouteGuard path="/my" component={My}></RouteGuard>
         {/* 配置课程详情页  传参取参*/}
         <Route path="/detail/:course" component={detail}></Route>
         {/* 配置404 */}
@@ -97,6 +99,73 @@ function App() {
       </Switch>
     </div>
   );
+}
+
+// 路由守卫
+class RouteGuard extends Component {
+  render() {
+    const { component: Component, ...others } = this.props;
+    return (
+      <Route
+        {...others}
+        render={props =>
+          auth.isLogin ? (
+            <Component {...props}></Component>
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: props.location.pathname }
+              }}
+            ></Redirect>
+          )
+        }
+      ></Route>
+    );
+  }
+}
+// 模拟接口
+const auth = {
+  isLogin: false,
+  login(callback) {
+    this.isLogin = true;
+    setTimeout(() => {
+      callback();
+    }, 1000);
+  }
+};
+
+class Login extends Component {
+  state = {
+    isLogin: false
+  };
+  login() {
+    auth.login(() => {
+      this.setState({
+        isLogin: true
+      });
+    });
+  }
+  render() {
+    const path =
+      this.props.location.state && this.props.location.state.from
+        ? this.props.location.state.from
+        : '/';
+    if (this.state.isLogin) {
+      return <Redirect to={path}></Redirect>;
+    }
+    return (
+      <div>
+        <button
+          onClick={() => {
+            this.login();
+          }}
+        >
+          登录
+        </button>
+      </div>
+    );
+  }
 }
 
 export default function RouterSample() {
