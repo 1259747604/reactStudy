@@ -10,5 +10,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "antd": "^3.26.3"
+  },
+  "devDependencies": {
+    "umi-plugin-react": "^1.14.9"
+  }
 }

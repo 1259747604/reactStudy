@@ -13,21 +13,50 @@ const Router = DefaultRouter;
 
 const routes = [
   {
-    path: '/about',
+    path: '/login',
+    component: require('../login').default,
     exact: true,
-    component: require('../about.js').default,
   },
   {
     path: '/',
+    component: require('../index').default,
     exact: true,
-    component: require('../index.js').default,
+  },
+  {
+    path: '/abouts',
+    component: require('../about').default,
+    Routes: [require('../../../routes/PriviteRoute.js').default],
+    exact: true,
+  },
+  {
+    path: '/users',
+    component: require('../users/_layout').default,
+    routes: [
+      {
+        path: '/users/:name',
+        component: require('../users/$name').default,
+        exact: true,
+      },
+      {
+        component: () =>
+          React.createElement(
+            require('C:/Users/Mechrevo/AppData/Local/Yarn/Data/global/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+              .default,
+            { pagesPath: 'src/pages', hasRoutesInConfig: true },
+          ),
+      },
+    ],
+  },
+  {
+    component: require('../notfound').default,
+    exact: true,
   },
   {
     component: () =>
       React.createElement(
         require('C:/Users/Mechrevo/AppData/Local/Yarn/Data/global/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
           .default,
-        { pagesPath: 'src/pages', hasRoutesInConfig: false },
+        { pagesPath: 'src/pages', hasRoutesInConfig: true },
       ),
   },
 ];
