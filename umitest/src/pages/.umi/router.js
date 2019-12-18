@@ -8,13 +8,19 @@ import {
 import dynamic from 'umi/dynamic';
 import renderRoutes from 'umi/lib/renderRoutes';
 import history from '@@/history';
+import { routerRedux } from 'dva';
 
-const Router = DefaultRouter;
+const Router = routerRedux.ConnectedRouter;
 
 const routes = [
   {
     path: '/login',
     component: require('../login').default,
+    exact: true,
+  },
+  {
+    path: '/goods',
+    component: require('../goods').default,
     exact: true,
   },
   {

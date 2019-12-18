@@ -5,24 +5,28 @@ export default {
       'umi-plugin-react',
       {
         antd: true,
-        dva: true
-      }
-    ]
+        dva: true,
+      },
+    ],
   ],
   // 路由配置
   routes: [
     {
       path: '/login',
-      component: './login'
+      component: './login',
+    },
+    {
+      path: '/goods',
+      component: './goods',
     },
     {
       path: '/',
-      component: './index' //路径是相对于pages
+      component: './index', //路径是相对于pages
     },
     {
       path: '/abouts',
       component: './about',
-      Routes: ['./routes/PriviteRoute.js'] //路由守卫配置编写 路径相对于根目录 后缀名不能省略
+      Routes: ['./routes/PriviteRoute.js'], //路由守卫配置编写 路径相对于根目录 后缀名不能省略
     },
     {
       path: '/users',
@@ -30,12 +34,12 @@ export default {
       routes: [
         {
           path: '/users/:name',
-          component: './users/$name'
-        }
-      ]
+          component: './users/$name',
+        },
+      ],
     },
     {
-      component: './notfound'
-    }
-  ]
+      component: './notfound',
+    },
+  ],
 };
